@@ -6233,6 +6233,9 @@ h6.panel-title,
 .icons-list a[data-action="collapse"]:after {
   content: '\e9c1';
 }
+.icons-list a[data-action="download"]:after {
+  content: '\e9d3';
+}
 .icons-list a[data-action="reload"]:after {
   content: '\e9fb';
 }

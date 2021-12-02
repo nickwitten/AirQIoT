@@ -45,6 +45,11 @@ from boto3.dynamodb.conditions import Key, Attr
 # import datetime
 # from dateutil.tz import tzoffset
 
+
+""" MY IMPORTS """
+import csv
+""""""
+
 sys.path.append(os.path.abspath(os.path.join('..', 'utils')))
 from env import AWS_ACCESS_KEY, AWS_SECRET_ACCESS_KEY, AWS_REGION
 
@@ -54,6 +59,26 @@ dynamodb = boto3.resource('dynamodb', aws_access_key_id=AWS_ACCESS_KEY,
 
 table = dynamodb.Table('AirQualityData')
 table_output = dynamodb.Table('AirQualityDataOutput')
+
+
+
+
+
+""" MY FUNCTIONS """
+def download_csv(request):
+    response = HttpResponse(
+        content_type="text/csv",
+        headers={'Content-Disposition': 'attachment; filename="AQI.csv"'}
+    )
+    writer = csv.writer(response)
+    writer.write_row(['1', '2', 'f'])
+    writer.write_row(['2', '3', 'g'])
+    return response
+""""""
+
+
+
+
 
 def home_page(request):
     #ts=datetime.datetime.utcnow() - datetime.timedelta(hours=12)
