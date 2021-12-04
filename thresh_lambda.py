@@ -56,10 +56,14 @@ def check_thresh():
     return len(results['Items']) > 0
     
 
-if __name__ == '__main__':
-    while True:
-        if check_thresh():
-            message = "Warning, the air quality is bad right now."
-            send_email('nwitt12@gmail.com', 'Air Quality Update', message)
-        time.sleep(20)
+def lambda_handler(event, context):
+
+    if check_thresh():
+        message = "Warning, the air quality is bad right now. - Lambda"
+        send_email('nwitt12@gmail.com', 'Air Quality Update', message)
+    # TODO implement
+    return {
+        'statusCode': 200,
+        'body': json.dumps('Complete')
+    }
 
