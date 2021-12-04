@@ -66,13 +66,23 @@ table_output = dynamodb.Table('AirQualityDataOutput')
 
 """ MY FUNCTIONS """
 def download_csv(request):
-    response = HttpResponse(
-        content_type="text/csv",
-        headers={'Content-Disposition': 'attachment; filename="AQI.csv"'}
+    response = HttpResponse(content_type="text/csv")
+    response['Content-Disposition'] = 'attachment; filename="pollutants.csv"'
+
+    now=int(time.time())
+    timestampold=now-86400
+    results = table.scan(
+        FilterExpression=Attr('timestamp').gt(timestampold)
     )
+    items = results['Items']
+    
     writer = csv.writer(response)
-    writer.write_row(['1', '2', 'f'])
-    writer.write_row(['2', '3', 'g'])
+    if len(items) == 0:
+        return response
+    labels = items[0]['data'].keys()
+    writer.writerow(labels)
+    for item in items:
+        writer.writerow(item['data'].values())
     return response
 """"""
 
